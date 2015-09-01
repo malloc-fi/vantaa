@@ -1,21 +1,18 @@
 package db
 
 import (
-	"gopkg.in/mgo.v2"
+	"github.com/jmcvetta/neoism"
+	"os"
 )
 
-const (
-	Dbname = "vantaa-local"
-	Dbuser = "guynathan"
-	Dbpass = "Nothing123"
-	Dburl  = "ds055812.mongolab.com:55812"
-)
-
-func Session() *mgo.Session {
-	dbu := "mongodb://" + Dbuser + ":" + Dbpass + "@" + Dburl + "/" + Dbname
-	s, err := mgo.Dial(dbu)
+func Connect() *neoism.Database {
+	url := os.Getenv("NEO4J")
+	if url == "" {
+		url = "http://localhost:7474/data/db"
+	}
+	db, err := neoism.Connect(url)
 	if err != nil {
 		panic(err)
 	}
-	return s
+	return db
 }
