@@ -1,4 +1,4 @@
-package db
+package neo
 
 import (
 	"github.com/jmcvetta/neoism"
