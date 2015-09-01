@@ -20,6 +20,9 @@ func NewUserController(s *mgo.Session) *UserController {
 	return &UserController{s}
 }
 
+func (uc UserController) GetUsersHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+}
+
 func (uc UserController) GetUserHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 }
 
