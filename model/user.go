@@ -134,12 +134,14 @@ func validateUser(u *User) (bool, error) {
 	}
 
 	// validate uniqueness
-	for _, props := range []neoism.Props{
-		neoism.Props{"name": u.Name},
-		neoism.Props{"email": u.Email},
+	for _, props := range []map[string]string{
+		{"name": u.Name},
+		{"email": u.Email},
 	} {
-		if u, _ := FindUser(props); u != nil {
-			return false, errors.New("Duplicate username or email.")
+		for k, v := range props {
+			if u, _ := FindUser(neoism.Props{k: v}); u != nil {
+				return false, errors.New("User with " + k + " \"" + v + "\" already exists.")
+			}
 		}
 	}
 
