@@ -1,9 +1,24 @@
 package neo
 
 import (
-	"github.com/jmcvetta/neoism"
 	"os"
+
+	"github.com/jmcvetta/neoism"
 )
+
+func PropString(props neoism.Props) string {
+	qstr := ""
+	for k, _ := range props {
+		qstr += "\"" + k + "\": {" + k + "},"
+	}
+
+	// remove trailing comma
+	if qstr != "" {
+		qstr = qstr[:len(qstr)-1]
+	}
+
+	return qstr
+}
 
 func Connect() *neoism.Database {
 	url := os.Getenv("NEO4J")
