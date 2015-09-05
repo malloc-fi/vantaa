@@ -1,14 +1,22 @@
 package controller
 
-import (
-	"github.com/jmcvetta/neoism"
-	"github.com/nathandao/vantaa/neo"
-)
+// import (
+// 	"html/template"
+// 	"net/http"
 
-type UserController struct {
-	Db *neoism.Database
-}
+// 	"github.com/jmcvetta/neoism"
+// 	"github.com/julienschmidt/httprouter"
+// 	"github.com/nathandao/vantaa/neo"
+// )
 
-func NewUserController() UserController {
-	return UserController{Db: neo.Connect()}
-}
+// type UserController struct {
+// 	Db *neoism.Database
+// }
+
+// func NewUserController() UserController {
+// 	return UserController{Db: neo.Connect()}
+// }
+
+// func (uc *UserController) UserLoginHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+// }

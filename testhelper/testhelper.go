@@ -1,4 +1,4 @@
-package test_helper
+package testhelper
 
 import (
 	"github.com/jmcvetta/neoism"
@@ -7,11 +7,9 @@ import (
 
 func ClearNeo() {
 	db := neo.Connect()
-
 	cq := neoism.CypherQuery{
 		Statement: `MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r`,
 	}
-
 	if err := db.Cypher(&cq); err != nil {
 		panic(err)
 	}

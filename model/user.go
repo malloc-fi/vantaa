@@ -112,7 +112,7 @@ func DeleteUser(props neoism.Props) error {
 // first element of the []*User slice.
 func FindUser(props neoism.Props) (*User, error) {
 	u, err := FindUsers(props)
-	if err != nil || len(u) <= 0 {
+	if err != nil {
 		return nil, err
 	}
 	return u[0], nil

@@ -6,15 +6,18 @@ import (
 	"github.com/jmcvetta/neoism"
 )
 
-func PropString(props neoism.Props) string {
+func PropString(prefix string, props neoism.Props) string {
 	qstr := ""
 	for k, _ := range props {
-		qstr += "\"" + k + "\": {" + k + "},"
+		if k != "id" {
+			qstr += prefix + "." + k + " = {" + k + "} and "
+		} else {
+			qstr += "id(" + prefix + ") = {" + k + "} and "
+		}
 	}
-
-	// remove trailing comma
+	// remove trailing and
 	if qstr != "" {
-		qstr = qstr[:len(qstr)-1]
+		qstr = qstr[:len(qstr)-4]
 	}
 
 	return qstr
