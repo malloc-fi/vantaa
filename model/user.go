@@ -10,7 +10,7 @@ import (
 	"github.com/nathandao/vantaa/neo"
 )
 
-const hashcost = 16
+const hashcost = 10
 
 type User struct {
 	Id             int    `json:"id(u)"`
@@ -171,7 +171,7 @@ func validateUser(u *User) (bool, error) {
 		return false, errors.New("missing user's email")
 	}
 
-	if matched, err := regexp.MatchString(`^([\w\.\_]{2,10})@(\w{1,})\\.([a-z]{2,4})$`, u.Email); err != nil {
+	if matched, err := regexp.MatchString(`^\w+([-+.']\w+)*@\w+([-.]\w+).\w+([-.]\w+)*$`, u.Email); err != nil || !matched {
 		return false, errors.New("invalid email")
 	}
 

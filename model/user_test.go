@@ -18,23 +18,23 @@ func TestSaveValidUser(t *testing.T) {
 
 	u2, err := u.Save()
 	if err != nil {
-		t.Error(err)
+		t.Error("Expected valid user to be saved successfully, save failed with error", err)
 	}
 
 	if u2 == nil {
-		t.Error("Expect saved user to be found in database, not found.")
+		t.Error("Expected saved user to be found in database, not found.")
 	}
 
 	if u2.Name != u.Name {
-		t.Error("Expect saved user to have name ", u.Name, "got ", u2.Name)
+		t.Error("Expected saved user to have name ", u.Name, "got ", u2.Name)
 	}
 
 	if u2.Email != u.Email {
-		t.Error("Expect saved user to have email ", u.Email, "got ", u2.Email)
+		t.Error("Expected saved user to have email ", u.Email, "got ", u2.Email)
 	}
 
 	if u2.Password != "" {
-		t.Error("Expect saved user to not store raw password, it got stored.")
+		t.Error("Expected the database to NOT store raw password, it was stored in the database.")
 	}
 }
 

@@ -17,7 +17,7 @@ func PropString(prefix string, props neoism.Props) string {
 	}
 	// remove trailing and
 	if qstr != "" {
-		qstr = qstr[:len(qstr)-4]
+		qstr = qstr[:len(qstr)-5]
 	}
 
 	return qstr
