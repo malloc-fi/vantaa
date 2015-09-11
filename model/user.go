@@ -1,10 +1,8 @@
 package model
 
 import (
-	"crypto/rand"
-	"crypto/sha1"
 	"errors"
-	"io"
+	"golang.org/x/crypto/bcrypt"
 	"regexp"
 	"strings"
 
@@ -12,7 +10,7 @@ import (
 	"github.com/nathandao/vantaa/neo"
 )
 
-const saltSize = 16
+const hashcost = 16
 
 type User struct {
 	Id             int    `json:"id(u)"`
@@ -54,13 +52,13 @@ func (u *User) Delete() error {
 // it creates a new User node in the database,
 func CreateUser(u *User) (*User, error) {
 	// user sanitization
-	sanitizeUser(u)
+	u.sanitize()
 
 	if _, err := validateUser(u); err != nil {
 		return nil, err
 	}
 
-	passwordDigest, err := GenrerateSalt([]byte(u.Password))
+	passwordDigest, err := bcrypt.GenerateFromPassword([]byte(u.Password), hashcost)
 	if err != nil {
 		return nil, err
 	}
@@ -155,7 +153,7 @@ func FindUsers(props neoism.Props) ([]*User, error) {
 
 func validateUser(u *User) (bool, error) {
 	// sanitization
-	sanitizeUser(u)
+	u.sanitize()
 
 	// validate user name
 	if u.Name == "" {
@@ -173,9 +171,7 @@ func validateUser(u *User) (bool, error) {
 		return false, errors.New("missing user's email")
 	}
 
-	if matched, err := regexp.MatchString("^[a-z0-9-_+.%]+@[a-z0-9-_]+\\.+[a-z]+$", u.Email); err != nil {
-		panic(err)
-	} else if matched == false {
+	if matched, err := regexp.MatchString(`^([\w\.\_]{2,10})@(\w{1,})\\.([a-z]{2,4})$`, u.Email); err != nil {
 		return false, errors.New("invalid email")
 	}
 
@@ -199,21 +195,7 @@ func validateUser(u *User) (bool, error) {
 	return true, nil
 }
 
-func GenrerateSalt(secret []byte) ([]byte, error) {
-	buf := make([]byte, saltSize, saltSize+sha1.Size)
-	_, err := io.ReadFull(rand.Reader, buf)
-
-	if err != nil {
-		return nil, err
-	}
-
-	hash := sha1.New()
-	hash.Write(buf)
-	hash.Write(secret)
-	return hash.Sum(buf), nil
-}
-
-func sanitizeUser(u *User) {
+func (u *User) sanitize() {
 	u.Name = strings.ToLower(strings.TrimSpace(u.Name))
 	u.Email = strings.ToLower(strings.TrimSpace(u.Email))
 }
