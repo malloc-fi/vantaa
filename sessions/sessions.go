@@ -14,10 +14,10 @@ const (
 )
 
 type Session struct {
-	Sid       []byte    `json:"sid"`
+	Sid       []byte    `json:"s.sid"`
 	Uid       int       `json:"id(u)"`
-	Created   time.Time `json:"created"`
-	LastLogin time.Time `json:"last_login"`
+	Created   time.Time `json:"s.created"`
+	LastLogin time.Time `json:"s.last_login"`
 }
 
 // Login authenticates using the user name and password and creates a new

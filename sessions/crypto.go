@@ -12,7 +12,8 @@ import (
 )
 
 const (
-	SaltSize  = 16
+	SaltSize = 16
+	// TODO: move to setings yaml
 	SecretKey = "7Pdvgdo6nNCJ41UdXynDgozdATUE1vaI"
 )
 
