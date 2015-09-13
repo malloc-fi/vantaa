@@ -85,8 +85,6 @@ func CreateUser(u *User) (*User, error) {
 
 // DeleteUser removes a User node from the database.
 // error is return even when user is not found
-// TODO: handling removal of all relationships to
-// the User node
 func DeleteUser(props neoism.Props) error {
 
 	// return error if user is not found in the database
@@ -97,7 +95,8 @@ func DeleteUser(props neoism.Props) error {
 	db := neo.Connect()
 	cq := neoism.CypherQuery{
 		Statement: `MATCH (u:User)
-                WHERE ` + neo.PropString("u", props) + `DELETE u`,
+                OPTIONAL MATCH (s:Session)-[r]->(u)
+                WHERE ` + neo.PropString("u", props) + `DELETE u, s, r`,
 		Parameters: props,
 	}
 	if err := db.Cypher(&cq); err != nil {
