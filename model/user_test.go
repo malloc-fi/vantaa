@@ -97,8 +97,7 @@ func TestSaveInvalidUser(t *testing.T) {
 
 func TestDeleteUser(t *testing.T) {
 	defer testhelper.ClearNeo()
-	factory := Factory{}
-	u := factory.DummyUser()
+	u := DummyUser()
 
 	// call user delete now should return an err not found
 	// since the user is not added to the database yes

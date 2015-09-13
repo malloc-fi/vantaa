@@ -1,11 +1,7 @@
 package model
 
-// Factory struct provides quick methods to create test content
-// to be used in model tests.
-type Factory struct{}
-
 // DummyUsers or factory.DummyUsers creates a slice of valid Users
-func (f *Factory) DummyUsers() []User {
+func DummyUsers() []User {
 	users := []User{
 		User{
 			Name:     "admin",
@@ -32,10 +28,20 @@ func (f *Factory) DummyUsers() []User {
 }
 
 // DummyUser or factory.DummyUser creates 1 valid User
-func (f *Factory) DummyUser() User {
+func DummyUser() User {
 	return User{
 		Name:     "unique_user",
 		Email:    "unique@example.com",
 		Password: "unique",
 	}
+}
+
+// CreateDummyUser adds a dummy user to the database
+func CreateDummyUser() *User {
+	u := DummyUser()
+	u2, err := u.Save()
+	if err != nil {
+		panic(err)
+	}
+	return u2
 }

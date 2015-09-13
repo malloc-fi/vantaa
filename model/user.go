@@ -10,7 +10,7 @@ import (
 	"github.com/nathandao/vantaa/neo"
 )
 
-const hashcost = 10
+const HashCost = 10
 
 type User struct {
 	Id             int    `json:"id(u)"`
@@ -54,11 +54,11 @@ func CreateUser(u *User) (*User, error) {
 	// user sanitization
 	u.sanitize()
 
-	if _, err := validateUser(u); err != nil {
+	if _, err := ValidateUser(u); err != nil {
 		return nil, err
 	}
 
-	passwordDigest, err := bcrypt.GenerateFromPassword([]byte(u.Password), hashcost)
+	passwordDigest, err := bcrypt.GenerateFromPassword([]byte(u.Password), HashCost)
 	if err != nil {
 		return nil, err
 	}
@@ -151,7 +151,7 @@ func FindUsers(props neoism.Props) ([]*User, error) {
 	return users, nil
 }
 
-func validateUser(u *User) (bool, error) {
+func ValidateUser(u *User) (bool, error) {
 	// sanitization
 	u.sanitize()
 
