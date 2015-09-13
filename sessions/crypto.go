@@ -46,19 +46,19 @@ func MatchSaltedHash(data, target []byte) (bool, error) {
 
 // Encrypt encrypts a string byte based on the SecretKey. This is used to
 // encrypt session data on the brower's cookie
-func Encrypt(str []byte) ([]byte, error) {
+func Encrypt(data []byte) ([]byte, error) {
 	block, err := aes.NewCipher([]byte(SecretKey))
 	if err != nil {
 		return nil, err
 	}
-	ciphertext := make([]byte, aes.BlockSize+len(str))
+	ciphertext := make([]byte, aes.BlockSize+len(data))
 	iv := ciphertext[:aes.BlockSize]
 	if _, err := io.
 		ReadFull(rand.Reader, iv); err != nil {
 		return nil, err
 	}
 	encrypter := cipher.NewCFBEncrypter(block, iv)
-	encrypter.XORKeyStream(ciphertext[aes.BlockSize:], str)
+	encrypter.XORKeyStream(ciphertext[aes.BlockSize:], data)
 	return ciphertext, nil
 }
 
