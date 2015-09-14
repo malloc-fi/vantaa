@@ -93,9 +93,9 @@ func CreateCookieValue(s *Session) ([]byte, error) {
 	return enc, nil
 }
 
-// DecryptCookieValue decrypts the cookie and returns the session Sid
+// DecryptCookieValueValue decrypts the cookie and returns the session Sid
 // and user's Id
-func DecryptCookie(enc []byte) ([]byte, int, error) {
+func DecryptCookieValue(enc []byte) ([]byte, int, error) {
 	dec, err := Decrypt(enc)
 	if err != nil {
 		return nil, 0, err
@@ -131,7 +131,7 @@ func DeleteSession(s *Session) error {
 // AuthenticateCookie check if the cookie id exists and belongs to the correct
 // user id
 func AuthenticateCookie(enc []byte) (bool, error) {
-	sid, uid, err := DecryptCookie(enc)
+	sid, uid, err := DecryptCookieValue(enc)
 	if err != nil {
 		return false, err
 	}

@@ -63,3 +63,42 @@ func TestInvalidLogin(t *testing.T) {
 		)
 	}
 }
+
+func TestSessionCookie(t *testing.T) {
+	s := DummySession()
+	cv, err := CreateCookieValue(s)
+	if err != nil {
+		t.Error(
+			"When creating session cookie value",
+			"expected no error",
+			"got error", err,
+		)
+	}
+	dec, uid, err := DecryptCookieValue(cv)
+	if err != nil {
+		t.Error(
+			"When decrypting session cookie value",
+			"expected no error",
+			"got error", err,
+		)
+	}
+	if !bytes.Equal(dec, s.Sid) {
+		t.Error(
+			"Expected decrypted sid from cookie to equals sid",
+			"Got", string(dec), "and", string(s.Sid),
+		)
+	}
+	if s.Uid != uid {
+		t.Error(
+			"Expected decrypted uid from cookie to equals s.Uid",
+			"Got", uid, "and", s.Uid,
+		)
+	}
+	if auth, err := AuthenticateCookie(cv); err != nil || !auth {
+		t.Error(
+			"When there is legit auth info",
+			"expected cookie authentication to pass",
+			"got error", err,
+		)
+	}
+}
