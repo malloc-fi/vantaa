@@ -26,7 +26,7 @@ func PropString(prefix string, props neoism.Props) string {
 func Connect() *neoism.Database {
 	url := os.Getenv("NEO4J")
 	if url == "" {
-		url = "http://neo4j:admin@localhost:7474"
+		url = "http://neo4j:foobar@localhost:7474"
 	}
 	db, err := neoism.Connect(url)
 	if err != nil {
