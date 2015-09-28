@@ -1,4 +1,4 @@
-package resource
+package user
 
 import (
 	"github.com/jmcvetta/neoism"

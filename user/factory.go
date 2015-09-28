@@ -1,4 +1,4 @@
-package resource
+package user
 
 // DummyUsers or factory.DummyUsers creates a slice of valid Users
 func DummyUsers() []User {

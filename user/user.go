@@ -1,4 +1,4 @@
-package resource
+package user
 
 import (
 	"errors"
@@ -194,6 +194,7 @@ func ValidateUser(u *User) (bool, error) {
 	return true, nil
 }
 
+// sanitize convert user's name and email to lower case
 func (u *User) sanitize() {
 	u.Name = strings.ToLower(strings.TrimSpace(u.Name))
 	u.Email = strings.ToLower(strings.TrimSpace(u.Email))
