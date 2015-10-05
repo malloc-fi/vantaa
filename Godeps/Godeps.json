@@ -3,6 +3,47 @@
 	"GoVersion": "go1.5",
 	"Deps": [
 		{
+			"ImportPath": "github.com/HouzuoGuo/tiedot/data",
+			"Comment": "3.2-7-g0f554c4",
+			"Rev": "0f554c4ffeb600bc2354f1f3f64b4df4ba5eb852"
+		},
+		{
+			"ImportPath": "github.com/HouzuoGuo/tiedot/db",
+			"Comment": "3.2-7-g0f554c4",
+			"Rev": "0f554c4ffeb600bc2354f1f3f64b4df4ba5eb852"
+		},
+		{
+			"ImportPath": "github.com/HouzuoGuo/tiedot/dberr",
+			"Comment": "3.2-7-g0f554c4",
+			"Rev": "0f554c4ffeb600bc2354f1f3f64b4df4ba5eb852"
+		},
+		{
+			"ImportPath": "github.com/HouzuoGuo/tiedot/gommap",
+			"Comment": "3.2-7-g0f554c4",
+			"Rev": "0f554c4ffeb600bc2354f1f3f64b4df4ba5eb852"
+		},
+		{
+			"ImportPath": "github.com/HouzuoGuo/tiedot/tdlog",
+			"Comment": "3.2-7-g0f554c4",
+			"Rev": "0f554c4ffeb600bc2354f1f3f64b4df4ba5eb852"
+		},
+		{
+			"ImportPath": "github.com/gorilla/context",
+			"Rev": "1c83b3eabd45b6d76072b66b746c20815fb2872d"
+		},
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Rev": "49c024275504f0341e5a9971eb7ba7fa3dc7af40"
+		},
+		{
+			"ImportPath": "github.com/gorilla/securecookie",
+			"Rev": "e95799a481bbcc3d01c2ad5178524cb8bec9f370"
+		},
+		{
+			"ImportPath": "github.com/gorilla/sessions",
+			"Rev": "b6bcae186ac3099dba8fafce125dc930393f1e5e"
+		},
+		{
 			"ImportPath": "github.com/jmcvetta/napping",
 			"Comment": "v1-30-g8485621",
 			"Rev": "8485621d4d99058aad49fe85e8bd3c15f6151cbe"
@@ -25,9 +66,21 @@
 			"Rev": "e373e137fafd8abd480af49182dea0513914adb4"
 		},
 		{
+			"ImportPath": "github.com/nathandao/neo4jstore",
+			"Rev": "436cabe66ed21f4459746f3974834b0005c164ae"
+		},
+		{
 			"ImportPath": "github.com/stretchr/testify/assert",
 			"Comment": "v1.0-40-g7c2b1e5",
 			"Rev": "7c2b1e5640dcf2631213ca962d892bffa1e08860"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/bcrypt",
+			"Rev": "81bf7719a6b7ce9b665598222362b50122dfc13b"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/blowfish",
+			"Rev": "81bf7719a6b7ce9b665598222362b50122dfc13b"
 		}
 	]
 }

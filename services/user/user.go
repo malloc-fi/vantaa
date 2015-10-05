@@ -6,11 +6,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/jmcvetta/neoism"
-	"github.com/nathandao/vantaa/neo"
+	vantaadb "github.com/nathandao/vantaa/core/db"
+	"github.com/nathandao/vantaa/settings"
 )
-
-const HashCost = 10
 
 type User struct {
 	Id             int    `json:"id(u)"`
@@ -30,21 +28,6 @@ func (u *User) Save() (*User, error) {
 }
 
 func (u *User) Delete() error {
-	props := neoism.Props{}
-	if u.Id != 0 {
-		props["id"] = u.Id
-	}
-	if u.Name != "" {
-		props["name"] = u.Name
-	}
-	if u.Email != "" {
-		props["email"] = u.Email
-	}
-
-	if err := DeleteUser(props); err != nil {
-		return err
-	}
-
 	return nil
 }
 
@@ -58,7 +41,7 @@ func CreateUser(u *User) (*User, error) {
 		return nil, err
 	}
 
-	passwordDigest, err := bcrypt.GenerateFromPassword([]byte(u.Password), HashCost)
+	passwordDigest, err := bcrypt.GenerateFromPassword([]byte(u.Password), settings.Get().HashCost)
 	if err != nil {
 		return nil, err
 	}
@@ -67,8 +50,8 @@ func CreateUser(u *User) (*User, error) {
 	u.PasswordDigest = passwordDigest
 
 	res := []User{}
-	db := neo.Connect()
-	cq := neoism.CypherQuery{
+	db := vantaadb.Connect()
+	cq := db.CypherQuery{
 		Statement: `CREATE (u:User {name:{name}, email:{email}, password_digest:{password_digest}})
                 RETURN id(u), u.name, u.email`,
 		Parameters: neoism.Props{"name": u.Name, "email": u.Email, "password_digest": u.PasswordDigest},

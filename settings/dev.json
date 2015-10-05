@@ -1,0 +1,9 @@
+{
+  "DbDir": "http://localhost:7474/db/data",
+  "DbUser": "foo",
+  "DbPassword": "bar",
+  "PrivateKeyPath": "",
+  "PublicKeyPath": ""
+  "HashCost": 10,
+  "JWTExpirationDelta": 72,
+}

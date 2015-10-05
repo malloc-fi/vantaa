@@ -1,0 +1,7 @@
+{
+  "HashCost": 10,
+  "JWTExpirationDelta": 72,
+  "DbDir": '~/vantaadb/prod/',
+  "PrivateKeyPath": "",
+  "PublicKeyPath": ""
+}
