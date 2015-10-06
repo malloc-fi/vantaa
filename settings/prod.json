@@ -1,7 +1,7 @@
 {
   "HashCost": 10,
   "JWTExpirationDelta": 72,
-  "DbDir": '~/vantaadb/prod/',
+  "DbUrl": "http://neo4j:foobar@localhost:7474/db/data",
   "PrivateKeyPath": "",
   "PublicKeyPath": ""
 }

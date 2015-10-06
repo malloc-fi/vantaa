@@ -1,28 +1,32 @@
 package settings
 
 import (
-	"encoding/json"
+	"bytes"
 	"fmt"
-	"io/ioutil"
 	"os"
+
+	"github.com/BurntSushi/toml"
 )
 
+var homedir = os.Getenv("HOME")
+var buffer bytes.Buffer
+var env = "development"
 var environments = map[string]string{
-	"production":  "settings/prod.json",
-	"development": "settings/dev.json",
-	"test":        "settings/test.json",
-}
-
-type Settings struct {
-	HashCost           int
-	DbDir              string
-	PrivateKeyPath     string
-	PublicKeyPath      string
-	JWTExpirationDelta int
+	"production":  ".config/vantaa/production.toml",
+	"development": ".config/vantaa/development.toml",
+	"test":        ".config/vantaa/test.toml",
 }
 
 var settings Settings = Settings{}
-var env = "development"
+
+type Settings struct {
+	HashCost           int
+	JWTExpirationDelta int
+	DbUrl              string
+	PrivateKeyPath     string
+	PublicKeyPath      string
+	isset              bool
+}
 
 func Init() {
 	env = os.Getenv("GO_ENV")
@@ -34,15 +38,14 @@ func Init() {
 }
 
 func LoadSettingsByEnv(env string) {
-	content, err := ioutil.ReadFile(environments[env])
-	if err != nil {
-		fmt.Println("Error while reading config file", err)
+	buffer.WriteString(homedir)
+	buffer.WriteString("/")
+	buffer.WriteString(environments[env])
+	if _, err := toml.DecodeFile(buffer.String(), &settings); err != nil {
+		fmt.Println("Failed to load configuration file in ~/config/vantaa/")
+		panic(err)
 	}
-	settings = Settings{}
-	jsonErr := json.Unmarshal(content, &settings)
-	if jsonErr != nil {
-		fmt.Println("Error while parsing config file", jsonErr)
-	}
+	settings.isset = true
 }
 
 func GetEnvironment() string {
@@ -50,7 +53,7 @@ func GetEnvironment() string {
 }
 
 func Get() Settings {
-	if &settings == nil {
+	if !settings.isset {
 		Init()
 	}
 	return settings

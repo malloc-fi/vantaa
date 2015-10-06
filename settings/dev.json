@@ -1,9 +1,7 @@
 {
-  "DbDir": "http://localhost:7474/db/data",
-  "DbUser": "foo",
-  "DbPassword": "bar",
-  "PrivateKeyPath": "",
-  "PublicKeyPath": ""
   "HashCost": 10,
   "JWTExpirationDelta": 72,
+  "DbUrl": "http://neo4j:foobar@localhost:9290/db/data",
+  "PrivateKeyPath": "",
+  "PublicKeyPath": ""
 }
