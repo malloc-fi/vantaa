@@ -1,15 +1,21 @@
 package vantaadb
 
 import (
-	"os"
-
 	"github.com/jmcvetta/neoism"
+	"github.com/nathandao/vantaa/settings"
 )
 
-// CypherQuery is basically neoism.CypherQuery. Adding here so we don't have
-// to include neoism separately in other packages, which should provide clearer
-// abtraction layers.
-type CypherQuery interface{}
+var db *neoism.Database = &neoism.Database{}
+
+// Init sets db with a valid neoism.Database value based on the environment's
+// DbUrl setting. Panic if unable to connect to the database
+func Init() {
+	var err error = nil
+	db, err = neoism.Connect(settings.Get().DbUrl)
+	if err != nil {
+		panic(err)
+	}
+}
 
 // PropString construct a neois.Props using the prefix - which is the Type's
 // name and its parameters, and returns a map[string]interface{} that can be
@@ -31,16 +37,11 @@ func PropString(prefix string, props neoism.Props) string {
 	return qstr
 }
 
-// Connect create a new neoism.Database instance that can be used to send
+// Connect create return a neoism.Database instance that can be used to process
 // cypher queries through the REST API
 func Connect() *neoism.Database {
-	url := os.Getenv("NEO4J")
-	if url == "" {
-		url = "http://neo4j:foobar@localhost:7474"
-	}
-	db, err := neoism.Connect(url)
-	if err != nil {
-		panic(err)
+	if db.Url == "" {
+		Init()
 	}
 	return db
 }
