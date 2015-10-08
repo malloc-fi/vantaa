@@ -1,7 +1,0 @@
-{
-  "HashCost": 10,
-  "JWTExpirationDelta": 72,
-  "DbUrl": "http://neo4j:foobar@localhost:7474/db/data",
-  "PrivateKeyPath": "",
-  "PublicKeyPath": ""
-}
