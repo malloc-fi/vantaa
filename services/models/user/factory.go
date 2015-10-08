@@ -1,4 +1,4 @@
-package models
+package user
 
 // DummyUsers or factory.DummyUsers creates a slice of valid Users
 func DummyUsers() []User {
@@ -36,7 +36,7 @@ func DummyUser() User {
 	}
 }
 
-// CreateDummyUser adds a dummy user to the database
+// CreateDummy adds a dummy user to the database
 func CreateDummyUser() *User {
 	u := DummyUser()
 	u2, err := u.Save()
