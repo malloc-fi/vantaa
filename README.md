@@ -1,5 +1,5 @@
 # vantaa
-A modular blogging API engine written in Go, Neo4j and Polymer web components for Admin UI
+A full blogging REST API engine written in Go and Neo4j.
 
 # Work in progress
 
