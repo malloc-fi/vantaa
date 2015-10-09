@@ -15,7 +15,7 @@ type User struct {
 	Id             int    `json:"id"`
 	Name           string `json:"name"`
 	Email          string `json:"email"`
-	PasswordDigest []byte `json:"password_digest"`
+	PasswordDigest []byte `json:"-"`
 	Password       string `json:"-"`
 }
 
