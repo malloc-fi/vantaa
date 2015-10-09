@@ -19,6 +19,7 @@ var environments = map[string]string{
 
 var settings Settings = Settings{}
 
+// Settings defines the Settings struct.
 type Settings struct {
 	HashCost           int
 	JWTExpirationDelta int
@@ -28,6 +29,7 @@ type Settings struct {
 	isset              bool
 }
 
+// Init get the environments value from flags, default fall back is development.
 func Init() {
 	env = os.Getenv("GO_ENV")
 	if env == "" {
@@ -37,6 +39,8 @@ func Init() {
 	LoadSettingsByEnv(env)
 }
 
+// LoadSettingsByEnv load the .toml setting files from
+// ~/.config/vantaa/<environment>.toml.
 func LoadSettingsByEnv(env string) {
 	buffer.WriteString(homedir)
 	buffer.WriteString("/")
@@ -48,10 +52,12 @@ func LoadSettingsByEnv(env string) {
 	settings.isset = true
 }
 
+// GetEnvironment returns the current environment
 func GetEnvironment() string {
 	return env
 }
 
+// Get gets and return Settings according to the configuration files
 func Get() Settings {
 	if !settings.isset {
 		Init()
@@ -59,6 +65,7 @@ func Get() Settings {
 	return settings
 }
 
+// IsTestEnvironment check if the current environment is test
 func IsTestEnvironment() bool {
 	return env == "test"
 }
