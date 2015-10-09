@@ -78,7 +78,11 @@ func CreateUser(u *User) (*User, error) {
 	res := []UserAdapter{}
 	db := vantaadb.Connect()
 	cq := neoism.CypherQuery{
-		Statement: `CREATE (u:User {name:{name}, email:{email}, password_digest:{password_digest}})
+		Statement: `CREATE (u:User {
+                  name:{name},
+                  email:{email},
+                  password_digest:{password_digest}
+                })
                 RETURN id(u), u.name, u.email`,
 		Parameters: neoism.Props{"name": u.Name, "email": u.Email, "password_digest": u.PasswordDigest},
 		Result:     &res,
@@ -125,7 +129,11 @@ func FindUsers(props map[string]interface{}) ([]*User, error) {
 	cq := neoism.CypherQuery{
 		Statement: `MATCH (u:User)
                 WHERE ` + condstr + `
-                RETURN id(u), u.name, u.email, u.password_digest`,
+                RETURN
+                  id(u),
+                  u.name,
+                  u.email,
+                  u.password_digest`,
 		Parameters: props,
 		Result:     &res,
 	}
