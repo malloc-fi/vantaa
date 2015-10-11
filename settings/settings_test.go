@@ -29,7 +29,7 @@ func TestSettings(t *testing.T) {
 		)
 	}
 
-	expecturl := "http://neo4j:foobar@localhost:9290/db/data/"
+	expecturl := "http://neo4j:foobar@127.0.0.1:9290/db/data/"
 	if s.DbUrl != expecturl {
 		t.Error(
 			"Expected DbUrl to equals", expecturl,
