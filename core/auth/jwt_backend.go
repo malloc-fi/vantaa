@@ -69,6 +69,19 @@ func (authBackend *JwtAuthBackend) Authenticate(u *user.User) bool {
 	return true
 }
 
+// TerminateToken invalidates the token before its expiration time.
+// This function is invoked when the user logged out.
+func (authBackend *JwtAuthBackend) TerminateToken(tokenstr string, token *jwt.Token) error {
+	// TODO: Make this happen.
+	return nil
+}
+
+// IsTerminated check if the token has been terminated before its expiration
+func (authBackend *JwtAuthBackend) IsTerminated() bool {
+	// TODO: make it happen.
+	return false
+}
+
 // getTokenRemaining get the remaining valid duration of the token
 func (authBackend *JwtAuthBackend) getTokenRemaining(timestamp interface{}) int {
 	if validity, ok := timestamp.(float64); ok {
