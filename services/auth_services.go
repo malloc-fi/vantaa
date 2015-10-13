@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	jwt "github.com/dgrijalva/jwt-go"
+	// jwt "github.com/dgrijalva/jwt-go"
 	"github.com/nathandao/vantaa/core/auth"
 	"github.com/nathandao/vantaa/services/models/user"
 )
@@ -40,15 +40,15 @@ func RefreshToken(requestUser *user.User) []byte {
 	return response
 }
 
-func Logout(req *http.Request) error {
-	authBackend := auth.InitJwtAuthBackend()
-	tokenRequest, err := jwt.ParseFromRequest(req,
-		func(token *jwt.Token) (interface{}, error) {
-			return authBackend.PublicKey, nil
-		})
-	if err != nil {
-		return err
-	}
-	tokenString := req.Header.Get("Authorization")
-	return authBackend.Logout(tokenString, tokenRequest)
-}
+// func Logout(req *http.Request) error {
+// 	authBackend := auth.InitJwtAuthBackend()
+// 	tokenRequest, err := jwt.ParseFromRequest(req,
+// 		func(token *jwt.Token) (interface{}, error) {
+// 			return authBackend.PublicKey, nil
+// 		})
+// 	if err != nil {
+// 		return err
+// 	}
+// 	tokenString := req.Header.Get("Authorization")
+// 	return authBackend.Logout(tokenString, tokenRequest)
+// }
