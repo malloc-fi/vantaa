@@ -1,7 +1,13 @@
 package auth
 
 import (
-	"cryto/rsa"
+	"bufio"
+	"crypto/rsa"
+	"crypto/x509"
+	"encoding/pem"
+	"golang.org/x/crypto/bcrypt"
+	"os"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jmcvetta/neoism"
@@ -11,7 +17,7 @@ import (
 
 type JwtAuthBackend struct {
 	privateKey *rsa.PrivateKey
-	PublicKey  *rsa.PublickKey
+	PublicKey  *rsa.PublicKey
 }
 
 const (
@@ -23,10 +29,10 @@ var authBackendInstance *JwtAuthBackend = nil
 // InitJwtAuthBackend instantiate a thread-safe JwtAuthBackend instance if
 // it has not been started.
 func InitJwtAuthBackend() *JwtAuthBackend {
-	if authBackendIntance == nil {
+	if authBackendInstance == nil {
 		authBackendInstance = &JwtAuthBackend{
 			privateKey: getPrivateKey(),
-			PublicKey:  getPublickKey(),
+			PublicKey:  getPublicKey(),
 		}
 	}
 	return authBackendInstance
@@ -40,8 +46,8 @@ func (authBackend *JwtAuthBackend) GenerateToken(uid int) (string, error) {
 		time.Hour * time.Duration(settings.Get().JWTExpirationDelta),
 	).Unix()
 	token.Claims["iat"] = time.Now().Unix()
-	tokenString, err := token.SignedString(backend.privateKey)
-	if err == nil {
+	tokenString, err := token.SignedString(authBackend.privateKey)
+	if err != nil {
 		return "", err
 	}
 	return tokenString, nil
@@ -53,12 +59,17 @@ func (authBackend *JwtAuthBackend) Authenticate(u *user.User) bool {
 	if err != nil {
 		return false
 	}
-	return bcrypt.CompareHashAdPassword(
+	diff := bcrypt.CompareHashAndPassword(
 		[]byte(checkUser.PasswordDigest),
 		[]byte(u.Password),
 	)
+	if diff != nil {
+		return false
+	}
+	return true
 }
 
+// getTokenRemaining get the remaining valid duration of the token
 func (authBackend *JwtAuthBackend) getTokenRemaining(timestamp interface{}) int {
 	if validity, ok := timestamp.(float64); ok {
 		tm := time.Unix(int64(validity), 0)
@@ -67,8 +78,10 @@ func (authBackend *JwtAuthBackend) getTokenRemaining(timestamp interface{}) int 
 			return int(remainer.Seconds() + expireOffset)
 		}
 	}
+	return expireOffset
 }
 
+// getPrivateKey returns the private key provided in settings
 func getPrivateKey() *rsa.PrivateKey {
 	privateKeyFile, err := os.Open(settings.Get().PrivateKeyPath)
 	if err != nil {
@@ -88,6 +101,7 @@ func getPrivateKey() *rsa.PrivateKey {
 	return privateKeyImported
 }
 
+// getPublicKey returns the public key provided in settings
 func getPublicKey() *rsa.PublicKey {
 	publicKeyFile, err := os.Open(settings.Get().PublicKeyPath)
 	if err != nil {

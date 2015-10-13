@@ -5,32 +5,35 @@ import (
 	"net/http"
 
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/nathandao/vantaa/api/parameters"
-	"github.com/nathandao/vantaa/core/authentication"
+	"github.com/nathandao/vantaa/core/auth"
 	"github.com/nathandao/vantaa/services/models/user"
 )
 
+type TokenAuthentication struct {
+	Token string `json:"token" form:"token"`
+}
+
 func Login(requestUser *user.User) (int, []byte) {
-	authBackend := authentication.InitJWTAuthenticationBackend()
+	authBackend := auth.InitJwtAuthBackend()
 	if authBackend.Authenticate(requestUser) {
-		token, err := authBackend.GenerareToken(requestUser.ID)
+		token, err := authBackend.GenerateToken(requestUser.Id)
 		if err != nil {
 			return http.StatusInternalServerError, []byte("")
 		} else {
-			response, _ := json.Marshal(paramenters.TokenAuthentication{token})
+			response, _ := json.Marshal(TokenAuthentication{token})
 			return http.StatusOK, response
 		}
 	}
 	return http.StatusUnauthorized, []byte("")
 }
 
-func ReFreshToken(request *user.User) []byte {
-	authBackend := authentication.InitJWTAuthenticationBackend()
-	token, err := authBackend.GenerateToken(requestUser.ID)
+func RefreshToken(requestUser *user.User) []byte {
+	authBackend := auth.InitJwtAuthBackend()
+	token, err := authBackend.GenerateToken(requestUser.Id)
 	if err != nil {
 		panic(err)
 	}
-	response, err := json.Marshal(parameters.TokenAuthentication{token})
+	response, err := json.Marshal(TokenAuthentication{token})
 	if err != nil {
 		panic(err)
 	}
@@ -38,7 +41,7 @@ func ReFreshToken(request *user.User) []byte {
 }
 
 func Logout(req *http.Request) error {
-	authBackend := authentication.InitJWTAuthenticationBackend()
+	authBackend := auth.InitJwtAuthBackend()
 	tokenRequest, err := jwt.ParseFromRequest(req,
 		func(token *jwt.Token) (interface{}, error) {
 			return authBackend.PublicKey, nil
