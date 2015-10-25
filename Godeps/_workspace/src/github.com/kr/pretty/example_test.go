@@ -2,7 +2,7 @@ package pretty_test
 
 import (
 	"fmt"
-	"github.com/kr/pretty"
+	"github.com/nathandao/vantaa/Godeps/_workspace/src/github.com/kr/pretty"
 )
 
 func Example() {

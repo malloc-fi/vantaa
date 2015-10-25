@@ -34,8 +34,8 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/jmcvetta/randutil"
+	"github.com/nathandao/vantaa/Godeps/_workspace/src/github.com/jmcvetta/randutil"
+	"github.com/nathandao/vantaa/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 )
 
 // neo4jUrl is global in order for TestConnect() to work when NEO4J_URL is set.
@@ -55,7 +55,6 @@ func connectTest(t *testing.T) *Database {
 	}
 	return db
 }
-
 
 func cleanup(t *testing.T, db *Database) {
 	qs := []*CypherQuery{
@@ -170,4 +169,3 @@ func TestPropertyKeys(t *testing.T) {
 		}
 	}
 }
-

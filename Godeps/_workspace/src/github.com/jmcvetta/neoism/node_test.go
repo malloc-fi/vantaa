@@ -9,8 +9,8 @@
 package neoism
 
 import (
-	"github.com/jmcvetta/randutil"
-	"github.com/stretchr/testify/assert"
+	"github.com/nathandao/vantaa/Godeps/_workspace/src/github.com/jmcvetta/randutil"
+	"github.com/nathandao/vantaa/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 	"testing"
 )
 

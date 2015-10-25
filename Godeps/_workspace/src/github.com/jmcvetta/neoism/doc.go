@@ -100,6 +100,6 @@ package neoism
 
 // Imports required for tests - so they work with "go get".
 import (
-	_ "github.com/stretchr/testify/assert"
-	_ "github.com/jmcvetta/randutil"
+	_ "github.com/nathandao/vantaa/Godeps/_workspace/src/github.com/jmcvetta/randutil"
+	_ "github.com/nathandao/vantaa/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 )

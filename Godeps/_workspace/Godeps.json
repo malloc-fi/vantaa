@@ -1,0 +1,38 @@
+{
+	"ImportPath": "github.com/nathandao/vantaa",
+	"GoVersion": "go1.5",
+	"Deps": [
+		{
+			"ImportPath": "github.com/BurntSushi/toml",
+			"Comment": "v0.1.0-21-g056c9bc",
+			"Rev": "056c9bc7be7190eaa7715723883caffa5f8fa3e4"
+		},
+		{
+			"ImportPath": "github.com/jmcvetta/neoism",
+			"Rev": "eeddbeb504d6c0f411e083a85b312d6ab71c48b1"
+		},
+		{
+			"ImportPath": "github.com/jmcvetta/randutil",
+			"Rev": "2bb1b664bcff821e02b2a0644cd29c7e824d54f8"
+		},
+		{
+			"ImportPath": "github.com/kr/pretty",
+			"Comment": "go.weekly.2011-12-22-27-ge6ac2fc",
+			"Rev": "e6ac2fc51e89a3249e82157fa0bb7a18ef9dd5bb"
+		},
+		{
+			"ImportPath": "github.com/kr/text",
+			"Rev": "e373e137fafd8abd480af49182dea0513914adb4"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify/assert",
+			"Comment": "v1.0-40-g7c2b1e5",
+			"Rev": "7c2b1e5640dcf2631213ca962d892bffa1e08860"
+		},
+		{
+			"ImportPath": "gopkg.in/jmcvetta/napping.v3",
+			"Comment": "v3.0.1",
+			"Rev": "f48aadd369a55d6436a5e99ca70419dfea62df9b"
+		}
+	]
+}

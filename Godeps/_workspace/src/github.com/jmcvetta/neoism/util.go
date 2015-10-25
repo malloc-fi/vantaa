@@ -5,7 +5,7 @@
 package neoism
 
 import (
-	"github.com/kr/pretty"
+	"github.com/nathandao/vantaa/Godeps/_workspace/src/github.com/kr/pretty"
 	"runtime"
 	"strconv"
 	"strings"

@@ -6,7 +6,7 @@ package neoism
 
 import (
 	"encoding/json"
-	"github.com/stretchr/testify/assert"
+	"github.com/nathandao/vantaa/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 	"strconv"
 	"testing"
 )
