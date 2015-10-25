@@ -8,6 +8,28 @@
 			"Rev": "056c9bc7be7190eaa7715723883caffa5f8fa3e4"
 		},
 		{
+			"ImportPath": "github.com/boltdb/bolt",
+			"Comment": "v1.0-143-gee716d1",
+			"Rev": "ee716d1410cb44d1a6b7e59a96a2b2bec23366a9"
+		},
+		{
+			"ImportPath": "github.com/cupcake/rdb",
+			"Rev": "3454dcabd33cb8ea8261ffd6a45f4d836eb504cc"
+		},
+		{
+			"ImportPath": "github.com/dgrijalva/jwt-go",
+			"Comment": "v2.3.0-7-gacc5a5f",
+			"Rev": "acc5a5f31e3493f1992315fd85aa49226372b810"
+		},
+		{
+			"ImportPath": "github.com/edsrzf/mmap-go",
+			"Rev": "f9d5617258fa999241e93b43f2ff89e4507cc3f2"
+		},
+		{
+			"ImportPath": "github.com/golang/snappy",
+			"Rev": "723cc1e459b8eea2dea4583200fd60757d40097a"
+		},
+		{
 			"ImportPath": "github.com/jmcvetta/neoism",
 			"Rev": "eeddbeb504d6c0f411e083a85b312d6ab71c48b1"
 		},
@@ -25,9 +47,73 @@
 			"Rev": "e373e137fafd8abd480af49182dea0513914adb4"
 		},
 		{
+			"ImportPath": "github.com/siddontang/go/filelock",
+			"Rev": "b151716326d7c7faf22473c0b04fb7ceac88b587"
+		},
+		{
+			"ImportPath": "github.com/siddontang/go/hack",
+			"Rev": "b151716326d7c7faf22473c0b04fb7ceac88b587"
+		},
+		{
+			"ImportPath": "github.com/siddontang/go/ioutil2",
+			"Rev": "b151716326d7c7faf22473c0b04fb7ceac88b587"
+		},
+		{
+			"ImportPath": "github.com/siddontang/go/log",
+			"Rev": "b151716326d7c7faf22473c0b04fb7ceac88b587"
+		},
+		{
+			"ImportPath": "github.com/siddontang/go/num",
+			"Rev": "b151716326d7c7faf22473c0b04fb7ceac88b587"
+		},
+		{
+			"ImportPath": "github.com/siddontang/go/snappy",
+			"Rev": "b151716326d7c7faf22473c0b04fb7ceac88b587"
+		},
+		{
+			"ImportPath": "github.com/siddontang/go/sync2",
+			"Rev": "b151716326d7c7faf22473c0b04fb7ceac88b587"
+		},
+		{
+			"ImportPath": "github.com/siddontang/ledisdb/config",
+			"Comment": "v0.5-31-g4bc99bb",
+			"Rev": "4bc99bb4fc2f46aca3cb9758d87ce38da241cc2b"
+		},
+		{
+			"ImportPath": "github.com/siddontang/ledisdb/ledis",
+			"Comment": "v0.5-31-g4bc99bb",
+			"Rev": "4bc99bb4fc2f46aca3cb9758d87ce38da241cc2b"
+		},
+		{
+			"ImportPath": "github.com/siddontang/ledisdb/rpl",
+			"Comment": "v0.5-31-g4bc99bb",
+			"Rev": "4bc99bb4fc2f46aca3cb9758d87ce38da241cc2b"
+		},
+		{
+			"ImportPath": "github.com/siddontang/ledisdb/store",
+			"Comment": "v0.5-31-g4bc99bb",
+			"Rev": "4bc99bb4fc2f46aca3cb9758d87ce38da241cc2b"
+		},
+		{
+			"ImportPath": "github.com/siddontang/rdb",
+			"Rev": "fc89ed2e418d27e3ea76e708e54276d2b44ae9cf"
+		},
+		{
 			"ImportPath": "github.com/stretchr/testify/assert",
 			"Comment": "v1.0-40-g7c2b1e5",
 			"Rev": "7c2b1e5640dcf2631213ca962d892bffa1e08860"
+		},
+		{
+			"ImportPath": "github.com/syndtr/goleveldb/leveldb",
+			"Rev": "1a9d62f03ea92815b46fcaab357cfd4df264b1a0"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/bcrypt",
+			"Rev": "c8b9e6388ef638d5a8a9d865c634befdc46a6784"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/blowfish",
+			"Rev": "c8b9e6388ef638d5a8a9d865c634befdc46a6784"
 		},
 		{
 			"ImportPath": "gopkg.in/jmcvetta/napping.v3",
