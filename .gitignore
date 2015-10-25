@@ -2,3 +2,4 @@
 neo4j-*
 db/
 db/*
+var/
