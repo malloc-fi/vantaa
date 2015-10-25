@@ -1,23 +1,52 @@
 package auth
 
 import (
-	"time"
-
-	"github.com/boltdb/bolt"
+	lediscfg "github.com/siddontang/ledisdb/config"
+	"github.com/siddontang/ledisdb/ledis"
 )
 
-const (
-	dbName = "jwt.db"
-)
+var cfg *lediscfg.Config = lediscfg.NewConfigDefault()
 
-func GetToken() {
+// BlacklistToken adds the token to a ledis database
+func BlacklistToken(token []byte, expireAt int64) error {
+	l, err := ledis.Open(cfg)
+	defer l.Close()
+	if err != nil {
+		return err
+	}
+
+	db, err := l.Select(0)
+	if err != nil {
+		return err
+	}
+
+	db.Set(token, token)
+	db.ExpireAt(token, expireAt)
+
+	return nil
 }
 
-// connect and return a *bolt.DB instance
-func connect() (*bolt.DB, error) {
-	db, err := bolt.Open(dbName, 0600, &bolt.Options{Timeout: 1 * time.Second})
+// IsBlackListed checks if a token is in the blacklist list
+func IsBlackListed(token []byte) (bool, error) {
+	l, err := ledis.Open(cfg)
+	defer l.Close()
 	if err != nil {
-		return nil, err
+		return false, err
 	}
-	return db, nil
+
+	db, err := l.Select(0)
+	if err != nil {
+		return false, err
+	}
+
+	res, err := db.Get(token)
+	if err != nil {
+		return false, err
+	}
+
+	if res == nil {
+		return false, err
+	}
+
+	return true, nil
 }
