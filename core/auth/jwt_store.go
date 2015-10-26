@@ -27,7 +27,7 @@ func BlacklistToken(token []byte, expireAt int64) error {
 }
 
 // IsBlackListed checks if a token is in the blacklist list
-func IsBlackListed(token []byte) (bool, error) {
+func IsBlacklisted(token []byte) (bool, error) {
 	l, err := ledis.Open(cfg)
 	defer l.Close()
 	if err != nil {

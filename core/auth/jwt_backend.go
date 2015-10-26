@@ -21,6 +21,8 @@ type JwtAuthBackend struct {
 }
 
 const (
+	// expOffset is the time that the token should be removed from ledis after
+	// its expiration
 	expireOffset = 3600
 )
 
@@ -72,26 +74,20 @@ func (authBackend *JwtAuthBackend) Authenticate(u *user.User) bool {
 // TerminateToken invalidates the token before its expiration time.
 // This function is invoked when the user logged out.
 func (authBackend *JwtAuthBackend) TerminateToken(tokenstr string, token *jwt.Token) error {
-	// TODO: Make this happen.
+	ledisExp := token.Claims["exp"].(int64) + expireOffset
+	if err := BlacklistToken([]byte(tokenstr), ledisExp); err != nil {
+		return err
+	}
 	return nil
 }
 
 // IsTerminated check if the token has been terminated before its expiration
-func (authBackend *JwtAuthBackend) IsTerminated() bool {
-	// TODO: make it happen.
-	return false
-}
-
-// getTokenRemaining get the remaining valid duration of the token
-func (authBackend *JwtAuthBackend) getTokenRemaining(timestamp interface{}) int {
-	if validity, ok := timestamp.(float64); ok {
-		tm := time.Unix(int64(validity), 0)
-		remainer := tm.Sub(time.Now())
-		if remainer > 0 {
-			return int(remainer.Seconds() + expireOffset)
-		}
+func (authBackend *JwtAuthBackend) IsTerminated(tokenstr string) bool {
+	terminated, _ := IsBlacklisted([]byte(tokenstr))
+	if terminated {
+		return true
 	}
-	return expireOffset
+	return false
 }
 
 // getPrivateKey returns the private key provided in settings

@@ -16,7 +16,7 @@ func TestTokenGeneration(t *testing.T) {
 	uid := 12
 	token, _ := authBackend.GenerateToken(uid)
 	if len(strings.Split(token, ".")) != 3 {
-		t.Error("Wrong token format. Probably token generation does not work as expected.")
+		t.Error("Wrong token format was generated.")
 	}
 }
 
