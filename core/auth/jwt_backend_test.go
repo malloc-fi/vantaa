@@ -15,8 +15,11 @@ import (
 func TestTokenGeneration(t *testing.T) {
 	authBackend, _ := InitJwtAuthBackend()
 
-	uid := 12
-	token, err := authBackend.GenerateToken(uid)
+	// First, create a dummy user
+	dummyu := user.DummyUser()
+	u, _ := dummyu.Save()
+
+	token, err := authBackend.GenerateToken(u)
 
 	if err != nil {
 		t.Error(
@@ -40,8 +43,9 @@ func TestAuthenticate(t *testing.T) {
 	dummyu := user.DummyUser()
 	dummyu.Save()
 
-	// Test valid authentication
 	u := user.DummyUser()
+
+	// Test valid authentication
 	loggedin := authBackend.Authenticate(&u)
 	if !loggedin {
 		t.Error("Expected right user credentials to be valid, got invalid.")
@@ -64,8 +68,10 @@ func TestTokenAuth(t *testing.T) {
 	defer ClearAllTokens()
 
 	// Generate a token string
-	uid := 12
-	tokenStr, _ := authBackend.GenerateToken(uid)
+	// First, create a dummy user
+	dummyu := user.DummyUser()
+	u, _ := dummyu.Save()
+	tokenStr, _ := authBackend.GenerateToken(u)
 
 	// Parse token string and make sure it is valid
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
@@ -84,10 +90,18 @@ func TestTokenAuth(t *testing.T) {
 		)
 	}
 
-	if int(token.Claims["uid"].(float64)) != uid {
+	// Make sure token has the correct payload data
+	if int(token.Claims["uid"].(float64)) != u.Id {
 		t.Error(
-			"Expected token to include uid ", uid,
+			"Expected token to include uid ", u.Id,
 			"got", token.Claims["uid"],
+		)
+	}
+
+	if token.Claims["email"].(string) != u.Email {
+		t.Error(
+			"Expected token to include user email", u.Email,
+			"got", token.Claims["email"],
 		)
 	}
 }

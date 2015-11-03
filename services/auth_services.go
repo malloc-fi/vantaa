@@ -20,7 +20,7 @@ func Login(requestUser *user.User) (int, []byte) {
 	}
 
 	if authBackend.Authenticate(requestUser) {
-		token, err := authBackend.GenerateToken(requestUser.Id)
+		token, err := authBackend.GenerateToken(requestUser)
 		if err != nil {
 			return http.StatusInternalServerError, []byte("")
 		} else {
@@ -37,7 +37,7 @@ func RefreshToken(requestUser *user.User) []byte {
 		panic(err)
 	}
 
-	token, err := authBackend.GenerateToken(requestUser.Id)
+	token, err := authBackend.GenerateToken(requestUser)
 	if err != nil {
 		panic(err)
 	}

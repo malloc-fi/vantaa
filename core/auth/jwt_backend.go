@@ -55,17 +55,21 @@ func InitJwtAuthBackend() (*JwtAuthBackend, error) {
 
 // GenerateToken creates an encrypted token including the user's ID using
 // signing method RS512 and the public/private key
-func (authBackend *JwtAuthBackend) GenerateToken(uid int) (string, error) {
+func (authBackend *JwtAuthBackend) GenerateToken(u *user.User) (string, error) {
 	token := jwt.New(jwt.SigningMethodRS512)
 	token.Claims["exp"] = time.Now().Add(
 		time.Hour * time.Duration(settings.Get().JWTExpirationDelta),
 	).Unix()
+
 	token.Claims["iat"] = time.Now().Unix()
-	token.Claims["uid"] = uid
+	token.Claims["uid"] = u.Id
+	token.Claims["email"] = u.Email
+
 	tokenString, err := token.SignedString(authBackend.privateKey)
 	if err != nil {
 		return "", err
 	}
+
 	return tokenString, nil
 }
 
