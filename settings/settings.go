@@ -46,7 +46,7 @@ func LoadSettingsByEnv(env string) {
 	buffer.WriteString("/")
 	buffer.WriteString(environments[env])
 	if _, err := toml.DecodeFile(buffer.String(), &settings); err != nil {
-		fmt.Println("Failed to load configuration file in ~/config/vantaa/")
+		fmt.Println("Failed to load configuration file in ~/.config/vantaa/")
 		panic(err)
 	}
 	settings.isset = true

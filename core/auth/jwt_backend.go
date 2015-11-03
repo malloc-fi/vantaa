@@ -26,18 +26,31 @@ const (
 	expireOffset = 3600
 )
 
-var authBackendInstance *JwtAuthBackend = nil
+var (
+	authBackendInstance *JwtAuthBackend = nil
+	hashCost            int             = settings.Get().HashCost
+)
 
 // InitJwtAuthBackend instantiate a thread-safe JwtAuthBackend instance if
 // it has not been started.
-func InitJwtAuthBackend() *JwtAuthBackend {
+func InitJwtAuthBackend() (*JwtAuthBackend, error) {
+	privateKey, err := getPrivateKey()
+	if err != nil {
+		return nil, err
+	}
+
+	publicKey, err := getPublicKey()
+	if err != nil {
+		return nil, err
+	}
+
 	if authBackendInstance == nil {
 		authBackendInstance = &JwtAuthBackend{
-			privateKey: getPrivateKey(),
-			PublicKey:  getPublicKey(),
+			privateKey: privateKey,
+			PublicKey:  publicKey,
 		}
 	}
-	return authBackendInstance
+	return authBackendInstance, nil
 }
 
 // GenerateToken creates an encrypted token including the user's ID using
@@ -48,6 +61,7 @@ func (authBackend *JwtAuthBackend) GenerateToken(uid int) (string, error) {
 		time.Hour * time.Duration(settings.Get().JWTExpirationDelta),
 	).Unix()
 	token.Claims["iat"] = time.Now().Unix()
+	token.Claims["uid"] = uid
 	tokenString, err := token.SignedString(authBackend.privateKey)
 	if err != nil {
 		return "", err
@@ -90,46 +104,60 @@ func (authBackend *JwtAuthBackend) IsTerminated(tokenstr string) bool {
 	return false
 }
 
-// getPrivateKey returns the private key provided in settings
-func getPrivateKey() *rsa.PrivateKey {
+func getPrivateKey() (*rsa.PrivateKey, error) {
 	privateKeyFile, err := os.Open(settings.Get().PrivateKeyPath)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
+
 	pemfileinfo, _ := privateKeyFile.Stat()
 	var size int64 = pemfileinfo.Size()
 	pembytes := make([]byte, size)
+
 	buffer := bufio.NewReader(privateKeyFile)
 	_, err = buffer.Read(pembytes)
+
 	data, _ := pem.Decode([]byte(pembytes))
+
 	privateKeyFile.Close()
+
 	privateKeyImported, err := x509.ParsePKCS1PrivateKey(data.Bytes)
+
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	return privateKeyImported
+
+	return privateKeyImported, nil
 }
 
-// getPublicKey returns the public key provided in settings
-func getPublicKey() *rsa.PublicKey {
+func getPublicKey() (*rsa.PublicKey, error) {
 	publicKeyFile, err := os.Open(settings.Get().PublicKeyPath)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
+
 	pemfileinfo, _ := publicKeyFile.Stat()
 	var size int64 = pemfileinfo.Size()
 	pembytes := make([]byte, size)
+
 	buffer := bufio.NewReader(publicKeyFile)
 	_, err = buffer.Read(pembytes)
+
 	data, _ := pem.Decode([]byte(pembytes))
+
 	publicKeyFile.Close()
+
 	publicKeyImported, err := x509.ParsePKIXPublicKey(data.Bytes)
+
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
+
 	rsaPub, ok := publicKeyImported.(*rsa.PublicKey)
+
 	if !ok {
-		panic(err)
+		return nil, err
 	}
-	return rsaPub
+
+	return rsaPub, nil
 }

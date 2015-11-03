@@ -1,20 +1,31 @@
 package auth
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/nathandao/vantaa/services/models/user"
 	"github.com/nathandao/vantaa/testhelpers"
 )
 
-var authBackend *JwtAuthBackend = InitJwtAuthBackend()
-
 // Make sure generated token string at least has the correct format:
 // xxx.xxx.xxx
 func TestTokenGeneration(t *testing.T) {
+	authBackend, _ := InitJwtAuthBackend()
+
 	uid := 12
-	token, _ := authBackend.GenerateToken(uid)
+	token, err := authBackend.GenerateToken(uid)
+
+	if err != nil {
+		t.Error(
+			"When token data is valid,",
+			"Expected token generation to be valid",
+			"got error", err,
+		)
+	}
+
 	if len(strings.Split(token, ".")) != 3 {
 		t.Error("Wrong token format was generated.")
 	}
@@ -22,6 +33,7 @@ func TestTokenGeneration(t *testing.T) {
 
 // Test valid and invalid authentication
 func TestAuthenticate(t *testing.T) {
+	authBackend, _ := InitJwtAuthBackend()
 	defer testhelpers.ClearDb()
 
 	// First, create a dummy user
@@ -44,5 +56,38 @@ func TestAuthenticate(t *testing.T) {
 	loggedin = authBackend.Authenticate(&u2)
 	if loggedin {
 		t.Error("Expected wrong user authentication to be invalid, go valid.")
+	}
+}
+
+func TestTokenAuth(t *testing.T) {
+	authBackend, _ := InitJwtAuthBackend()
+	defer ClearAllTokens()
+
+	// Generate a token string
+	uid := 12
+	tokenStr, _ := authBackend.GenerateToken(uid)
+
+	// Parse token string and make sure it is valid
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+		} else {
+			return authBackend.PublicKey, nil
+		}
+	})
+
+	// Make sure token is valid
+	if err != nil {
+		t.Error(
+			"Expected token to have valid signing method,",
+			"got invalid with error: ", err,
+		)
+	}
+
+	if int(token.Claims["uid"].(float64)) != uid {
+		t.Error(
+			"Expected token to include uid ", uid,
+			"got", token.Claims["uid"],
+		)
 	}
 }

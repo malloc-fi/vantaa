@@ -50,3 +50,18 @@ func IsBlacklisted(token []byte) (bool, error) {
 
 	return true, nil
 }
+
+func ClearAllTokens() (int64, error) {
+	l, err := ledis.Open(cfg)
+	defer l.Close()
+	if err != nil {
+		return 0, err
+	}
+
+	db, err := l.Select(0)
+	if err != nil {
+		return 0, err
+	}
+
+	return db.FlushAll()
+}
