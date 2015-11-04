@@ -1,12 +1,12 @@
 package routers
 
-// import (
-// 	"github.com/gorilla/mux"
-// )
+import (
+	"github.com/gorilla/mux"
+)
 
-// func InitRoutes() *mux.Router {
-// 	router := mux.NewRouter()
-// 	router = SetHelloRoutes(router)
-// 	router = SetAuthenticationRoutes(router)
-// 	return router
-// }
+func InitRoutes() *mux.Router {
+	router := mux.NewRouter()
+	router = SetAuthenticationRoutes(router)
+	router = SetPolymerAppRoutes(router)
+	return router
+}
