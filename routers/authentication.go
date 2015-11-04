@@ -8,14 +8,14 @@ import (
 )
 
 func SetAuthenticationRoutes(router *mux.Router) *mux.Router {
-	router.HandleFunc("/api/token-auth", controllers.Login).Methods("POST")
+	router.HandleFunc("/api/auth/token", controllers.Login).Methods("POST")
 
-	router.Handle("/api/refresh-token-auth", negroni.New(
+	router.Handle("/api/auth/refresh-token", negroni.New(
 		negroni.HandlerFunc(auth.RequireTokenAuthentication),
 		negroni.HandlerFunc(controllers.RefreshToken),
 	)).Methods("GET")
 
-	router.Handle("/api/logout",
+	router.Handle("/api/auth/logout",
 		negroni.New(
 			negroni.HandlerFunc(auth.RequireTokenAuthentication),
 			negroni.HandlerFunc(controllers.Logout),
