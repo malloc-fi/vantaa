@@ -13,6 +13,7 @@ import (
 // Make sure generated token string at least has the correct format:
 // xxx.xxx.xxx
 func TestTokenGeneration(t *testing.T) {
+	defer testhelpers.ClearDb()
 	authBackend, _ := InitJwtAuthBackend()
 
 	// First, create a dummy user
@@ -36,8 +37,8 @@ func TestTokenGeneration(t *testing.T) {
 
 // Test valid and invalid authentication
 func TestAuthenticate(t *testing.T) {
-	authBackend, _ := InitJwtAuthBackend()
 	defer testhelpers.ClearDb()
+	authBackend, _ := InitJwtAuthBackend()
 
 	// First, create a dummy user
 	dummyu := user.DummyUser()
@@ -64,8 +65,8 @@ func TestAuthenticate(t *testing.T) {
 }
 
 func TestTokenAuth(t *testing.T) {
-	authBackend, _ := InitJwtAuthBackend()
 	defer ClearAllTokens()
+	authBackend, _ := InitJwtAuthBackend()
 
 	// Generate a token string
 	// First, create a dummy user
@@ -98,10 +99,10 @@ func TestTokenAuth(t *testing.T) {
 		)
 	}
 
-	if token.Claims["email"].(string) != u.Email {
+	if token.Claims["uname"].(string) != u.Name {
 		t.Error(
-			"Expected token to include user email", u.Email,
-			"got", token.Claims["email"],
+			"Expected token to include user email", u.Name,
+			"got", token.Claims["uname"],
 		)
 	}
 }

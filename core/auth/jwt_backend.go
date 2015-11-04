@@ -63,7 +63,7 @@ func (authBackend *JwtAuthBackend) GenerateToken(u *user.User) (string, error) {
 
 	token.Claims["iat"] = time.Now().Unix()
 	token.Claims["uid"] = u.Id
-	token.Claims["email"] = u.Email
+	token.Claims["uname"] = u.Name
 
 	tokenString, err := token.SignedString(authBackend.privateKey)
 	if err != nil {
