@@ -2,15 +2,21 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
+	"net/http"
+
 	"github.com/nathandao/vantaa/services"
 	"github.com/nathandao/vantaa/services/models/user"
-	"net/http"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Access-Control-Allow-Origin", "*")
 	requestUser := new(user.User)
 	decoder := json.NewDecoder(r.Body)
 	decoder.Decode(&requestUser)
+
+	fmt.Println(requestUser)
+	fmt.Println(r.FormValue("email"))
 
 	responseStatus, token := services.Login(requestUser)
 	w.Header().Set("Content-Type", "application/json")

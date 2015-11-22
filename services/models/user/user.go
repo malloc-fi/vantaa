@@ -13,10 +13,10 @@ import (
 
 type User struct {
 	Id             int    `json:"id"`
-	Name           string `json:"name"`
-	Email          string `json:"email"`
+	Name           string `json:"name" form:"name"`
+	Email          string `json:"email" form:"email"`
 	PasswordDigest []byte `json:"-"`
-	Password       string `json:"-"`
+	Password       string `json:"password"`
 }
 
 type UserAdapter struct {

@@ -12,6 +12,8 @@ var env = os.Getenv("GO_ENV")
 // SetPolymerAppRoutes sets the path for polymer app
 func SetPolymerAppRoutes(router *mux.Router) *mux.Router {
 
+	router = router.StrictSlash(true)
+
 	if env == "production" {
 		adminAppFiles := http.FileServer(http.Dir("./admin/dist/"))
 		router.PathPrefix("/admin/").Handler(http.StripPrefix("/admin/", adminAppFiles))

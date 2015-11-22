@@ -13,6 +13,11 @@
 			"Rev": "ee716d1410cb44d1a6b7e59a96a2b2bec23366a9"
 		},
 		{
+			"ImportPath": "github.com/codegangsta/negroni",
+			"Comment": "v0.1-70-gc7477ad",
+			"Rev": "c7477ad8e330bef55bf1ebe300cf8aa67c492d1b"
+		},
+		{
 			"ImportPath": "github.com/cupcake/rdb",
 			"Rev": "3454dcabd33cb8ea8261ffd6a45f4d836eb504cc"
 		},
@@ -28,6 +33,14 @@
 		{
 			"ImportPath": "github.com/golang/snappy",
 			"Rev": "723cc1e459b8eea2dea4583200fd60757d40097a"
+		},
+		{
+			"ImportPath": "github.com/gorilla/context",
+			"Rev": "1c83b3eabd45b6d76072b66b746c20815fb2872d"
+		},
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Rev": "ad4d7a5882b961e07e2626045eb995c022ac6664"
 		},
 		{
 			"ImportPath": "github.com/jmcvetta/neoism",
