@@ -1,0 +1,9 @@
+@lost flexbox flex;
+@lost gutter 30px;
+@lost flexbox flex;
+@lost cycle none;
+
+#header,
+.area-center {
+  lost-column: 1/2 flex;
+}
