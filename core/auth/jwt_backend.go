@@ -92,7 +92,7 @@ func (authBackend *JwtAuthBackend) Authenticate(u *user.User) bool {
 // TerminateToken invalidates the token before its expiration time.
 // This function is invoked when the user logged out.
 func (authBackend *JwtAuthBackend) TerminateToken(tokenstr string, token *jwt.Token) error {
-	ledisExp := token.Claims["exp"].(int64) + expireOffset
+	ledisExp := int64(token.Claims["exp"].(float64)) + expireOffset
 	if err := BlacklistToken([]byte(tokenstr), ledisExp); err != nil {
 		return err
 	}

@@ -4,6 +4,7 @@ export default {
   BASE_URL: BASE_URL,
   LOGIN_URL: BASE_URL + '/api/auth/token',
   LOGOUT_URL: BASE_URL + '/api/auth/logout',
+  VALIDATE_TOKEN_URL: BASE_URL + '/api/auth/token/validate',
 
   // Actions
   LOGIN_USER: 'LOGIN_USER',

@@ -1,6 +1,6 @@
-require('./loginForm.css');
+require('./LoginForm.css');
 
-import connectToStores from 'alt/utils/connectToStores';  
+import connectToStores from 'alt/utils/connectToStores';
 import AuthService from 'services/AuthService';
 import React from 'react';
 import { LinkedState } from 'decorators/react/LinkedState';
@@ -26,13 +26,15 @@ class LoginForm extends React.Component {
 
   render() {
     return(
-      <form role="form">
-        <div className="form-group">
-          <input type="text" valueLink={ this.linkState('email') } placeholder="Username" />
-          <input type="password" valueLink={ this.linkState('password') } placeholder="Password" />
-        </div>
-        <button type="submit" onClick={ this.login }>Submi</button>
-      </form>
+      <div className="area-center">
+        <form role="form">
+          <div className="form-group">
+            <input type="text" valueLink={ this.linkState('email') } placeholder="Username" />
+            <input type="password" valueLink={ this.linkState('password') } placeholder="Password" />
+          </div>
+          <button type="submit" onClick={ this.login }>Login</button>
+        </form>
+      </div>
     );
   }
 }

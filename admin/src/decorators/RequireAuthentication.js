@@ -3,14 +3,14 @@ import AuthStore from 'stores/AuthStore';
 
 var RequireAuthentication = ComposedComponent => class extends React.Component {
 
-  static willTransitTo(transition) {
+  static willTransitionTo(transition) {
     if (!AuthStore.isLoggedIn()) {
-      transition.redirect('/login', {}, {'nextPath' : transition.path});
+      transition.redirect('/login', {}, { 'nextPath' : transition.path });
     }
   }
 
   constructor() {
-    super();
+    super()
     this.state = this._getLoginState();
   }
 

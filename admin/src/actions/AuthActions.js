@@ -1,6 +1,5 @@
 import AppDispatcher from 'dispatchers/AppDispatcher';
 import RouterContainer from 'services/RouterContainer';
-
 import { LOGIN_USER, LOGOUT_USER } from 'constants';
 
 var AuthActions  = {
@@ -21,14 +20,13 @@ var AuthActions  = {
     }
   },
 
-  logoutuser: () => {
+  logoutUser: () => {
     RouterContainer.get().transitionTo('/login');
     localStorage.removeItem('jwt');
     AppDispatcher.dispatch({
       actionType: LOGOUT_USER
     });
   }
-
 };
 
 export default AuthActions;

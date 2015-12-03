@@ -1,8 +1,0 @@
-@lost gutter 20px;
-@lost flexbox flex;
-@lost cycle none;
-
-#content {
-  lost-column: 1/4;
-  background: #bada55;
-}

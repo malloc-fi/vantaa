@@ -9,8 +9,7 @@ import (
 	"github.com/nathandao/vantaa/services/models/user"
 )
 
-func Login(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Access-Control-Allow-Origin", "*")
+func Login(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	requestUser := new(user.User)
 	decoder := json.NewDecoder(r.Body)
 	decoder.Decode(&requestUser)
@@ -35,8 +34,9 @@ func RefreshToken(w http.ResponseWriter, r *http.Request, next http.HandlerFunc)
 
 func Logout(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	err := services.Logout(r)
+	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
-	if err == nil {
+	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	} else {
 		w.WriteHeader(http.StatusOK)

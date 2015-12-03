@@ -1,4 +1,5 @@
 import AuthActions from 'actions/AuthActions';
+import AuthService from 'services/AuthService';
 import BaseStore from 'stores/BaseStore';
 import jwt_decode from 'jwt-decode';
 import { LOGIN_USER, LOGOUT_USER } from 'constants';
