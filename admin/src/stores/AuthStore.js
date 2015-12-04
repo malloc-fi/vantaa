@@ -40,6 +40,9 @@ class AuthStore extends BaseStore {
   }
 
   isLoggedIn() {
+    if (!!this._user) {
+      AuthService.validateToken();
+    }
     return !!this._user;
   }
 }

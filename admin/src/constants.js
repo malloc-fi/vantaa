@@ -2,7 +2,7 @@ var BASE_URL = 'http://localhost:9292';
 
 export default {
   BASE_URL: BASE_URL,
-  LOGIN_URL: BASE_URL + '/api/auth/token',
+  LOGIN_URL: BASE_URL + '/api/auth/token/new',
   LOGOUT_URL: BASE_URL + '/api/auth/logout',
   VALIDATE_TOKEN_URL: BASE_URL + '/api/auth/token/validate',
 

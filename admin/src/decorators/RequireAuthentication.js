@@ -38,10 +38,10 @@ var RequireAuthentication = ComposedComponent => class extends React.Component {
   render() {
     return (
       <ComposedComponent
-          {...this.props}
-          user={this.state.user}
-          jwt={this.state.jwt}
-          userLoggedIn={this.state.userLoggedIn} />
+          { ...this.props }
+          user={ this.state.user }
+          jwt={ this.state.jwt }
+          userLoggedIn={ this.state.userLoggedIn } />
     );
   }
 }

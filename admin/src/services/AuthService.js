@@ -42,7 +42,7 @@ class AuthService {
       };
     }
 
-    this._handleLogout(when(request({
+    return this._handleLogout(when(request({
       url: LOGOUT_URL,
       type: 'json',
       dataType: 'application/json',
@@ -59,33 +59,32 @@ class AuthService {
 
   _handleLogout(logoutPromise) {
     logoutPromise.then(function(resp) {
-      console.log(resp);
       AuthActions.logoutUser();
     });
   }
 
   validateToken() {
-    var data = { token: AuthStore.jwt };
     return this._handleTokenValidation(when(request({
       url: VALIDATE_TOKEN_URL,
       method: 'POST',
-      crossOrigin: true,
       type: 'json',
       dataType: 'application/json',
-      data: data
+      method: 'POST',
+      crossOrigin: true,
+      headers: {
+        'Authorization': 'Bearer ' + AuthStore.jwt
+      },
+      error: (e) => {
+        AuthActions.logoutUser();
+      }
     })));
   }
 
   _handleTokenValidation(validationPromise) {
-    try {
-      return validationPromise
+    return validationPromise
       .then(function(resp) {
         return resp.status == 200;
       });
-    }
-    catch(e) {
-      return false;
-    }
   }
 }
 
