@@ -1,4 +1,0 @@
-#!/bin/sh
-
-DIR="db/test/neo4j"
-$DIR/bin/neo4j start
