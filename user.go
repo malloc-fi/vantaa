@@ -2,11 +2,9 @@ package main
 
 import (
 	"errors"
-	"github.com/satori/go.uuid"
 )
 
 type User struct {
-	Id             string `json:"id"`
 	Name           string `json:"name"`
 	Email          string `json:"email"`
 	PasswordDigest string `json:"passwordDigest"`
@@ -21,10 +19,9 @@ func (u *User) Save() (*User, error) {
 	}
 
 	t := NewTransaction()
-	t.AddQuad(MakeQuad(VANTAA_BLOG, HAS_USER, u.Id, USERS_GRAPH))
-	t.AddQuad(MakeQuad(u.Id, HAS_NAME, u.Name, USERS_GRAPH))
-	t.AddQuad(MakeQuad(u.Id, HAS_EMAIL, u.Email, USERS_GRAPH))
-	t.AddQuad(MakeQuad(u.Id, HAS_PASSWORD_DIGEST, u.PasswordDigest, USERS_GRAPH))
+	//t.AddQuad(MakeQuad(VANTAA_BLOG, HAS_USER, u.Name, "."))
+	t.AddQuad(MakeQuad(u.Name, HAS_EMAIL, u.Email, "."))
+	//t.AddQuad(MakeQuad(u.Name, HAS_PASSWORD_DIGEST, u.PasswordDigest, "."))
 
 	if err := ApplyTransaction(t); err != nil {
 		return u, err
@@ -66,11 +63,6 @@ func (u *User) Verify() error {
 	// TODO: Make sure u.Name is unique.
 	if u.Name == "" {
 		return errors.New("Missing user's Name")
-	}
-
-	if u.Id == "" {
-		uid := uuid.NewV4()
-		u.Id = string(uid[:len(uid)])
 	}
 
 	return nil

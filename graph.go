@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/cayleygraph/cayley"
@@ -13,10 +14,6 @@ import (
 const VANTAA_BLOG = "vantaa blog"
 const HAS_USER = "has user"
 
-// Types of graphs
-const USERS_GRAPH = "users graph"
-const POSTS_GRAPH = "posts graph"
-
 // Relationships
 const HAS_NAME = "has name"
 const HAS_EMAIL = "has email"
@@ -25,6 +22,7 @@ const HAS_PASSWORD_DIGEST = "has password digest"
 // GetObjects retrieves all objects that relates to the subject through
 // predicate.
 func GetObjects(subject, predicate string) ([]interface{}, error) {
+	store, _ := Db()
 	nativeValues := []interface{}{}
 
 	// Now we create the path, to get to our data
@@ -35,18 +33,15 @@ func GetObjects(subject, predicate string) ([]interface{}, error) {
 	it, _ := p.BuildIterator().Optimize()
 	defer it.Close()
 
-	// Now for each time we can go to next iterator
-	nxt := graph.AsNexter(it)
-	defer nxt.Close()
-
 	// While we have items
-	for nxt.Next() {
+	for it.Next() {
 		token := it.Result()
 		value := store.NameOf(token)
+		fmt.Println("SEarching value:", value)
 		nativeValues = append(nativeValues, quad.NativeOf(value))
 	}
 
-	return nativeValues, nxt.Err()
+	return nativeValues, it.Err()
 }
 
 // NewTransaction shorthand.
@@ -71,4 +66,40 @@ func ApplyTransaction(t *graph.Transaction) error {
 		log.Fatalln(err)
 	}
 	return nil
+}
+
+// RemoveAllQuads removes all quads in graph.
+func RemoveAllQuads() error {
+	store, err := Db()
+
+	if err != nil {
+		return err
+	}
+
+	it := store.QuadsAllIterator()
+	it, _ = it.Optimize()
+	defer it.Close()
+
+	for it.Next() {
+		store.RemoveQuad(store.Quad(it.Result()))
+	}
+
+	return it.Err()
+}
+
+// RemoveAllNodes removes all nodes in graph.
+func RemoveAllNodes() error {
+	store, err := Db()
+
+	if err != nil {
+		return err
+	}
+	it := store.NodesAllIterator()
+	defer it.Close()
+
+	for it.Next() {
+		store.RemoveNode(it.Result())
+	}
+
+	return it.Err()
 }

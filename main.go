@@ -5,6 +5,15 @@ import (
 )
 
 func main() {
+	u := User{
+		Name:     "testuser",
+		Email:    "user@example.com",
+		Password: "somepassword",
+	}
+	u.Create()
+
+	newU, _ := GetObjects("", "")
+	fmt.Println(newU)
 	// Create a brand new graph
 	// Initialize the database
 	// store, err := Db()
@@ -12,9 +21,6 @@ func main() {
 	// if err != nil {
 	// 	log.Fatalln(err)
 	// }
-
-	pwD, _ := GeneratePasswordDigest("vantaaRocks")
-	fmt.Println(pwD)
 
 	// Quad(subject, predicate, object, label interface{})
 	// Triple(subject, pridcate, label interface{})
